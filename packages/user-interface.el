@@ -10,9 +10,8 @@
   (setq dashboard-banner-logo-title "าयउ ऽकषउ")
   (setq dashboard-startup-banner "/Users/ayushjha/Pictures/dashboard_pic.png")
   (setq dashboard-set-heading-icons t)
-  (setq dashboard-items '((recents  . 5)
-                          (bookmarks . 5)
-                          (projects . 5)))
+  (setq dashboard-items '((projects . 5)
+                          (bookmarks . 5)))
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   (dashboard-setup-startup-hook))
 
@@ -71,3 +70,77 @@
          ("C-c _" . eyebrowse-close-window-config)
          ("C-c `" . eyebrowse-switch-to-window-config))
  )
+
+
+(use-package centered-window :ensure t
+  :init
+  :config
+  (setq cwm-use-vertical-padding nil)
+  (setq cwm-frame-internal-border 0))
+
+
+(use-package powerline
+  :config (progn
+            (setq powerline-arrow-shape 'arrow14)   ;; give your mode-line curves
+            (setq powerline-image-apple-rgb t)
+            (setq-default
+             mode-line-format
+             '("%e"
+               (:eval
+                (let ((active (powerline-selected-window-active)))
+                  (powerline-simple-buffer active)
+                  (powerline-simple-major-mode active)
+                  (powerline-row active 'r)))))
+            (powerline-default-theme))
+  :ensure t)
+
+
+(use-package diminish
+  :ensure t
+  :config
+  (progn
+    (diminish 'abbrev-mode nil)
+    (diminish 'auto-revert-mode nil)
+    (diminish 'eldoc-mode nil)
+    (diminish 'flyspell-mode nil)
+    (diminish 'global-whitespace-mode nil)
+    (diminish 'helm-mode "Hm")
+    (diminish 'ivy-mode nil)
+    (diminish 'projectile-mode nil)
+    (diminish 'counsel-mode nil)
+    (diminish 'rainbow-mode nil)
+    (diminish 'undo-tree-mode nil)
+    (diminish 'company-mode "Cp")
+    (diminish 'tree-sitter-mode "Ts")
+    (diminish 'copile-mode "Co")
+    (diminish 'visual-line-mode nil)
+    (diminish 'whitespace-mode nil)
+    (diminish 'rustic-mode "Rs")
+    (diminish 'fixmee-mode nil)
+    (diminish 'flymake-mode "FM")
+    (diminish 'python-ts-mode "Py")
+    (diminish 'python-mode "Py")
+    (diminish 'lsp-lens-mode "L")
+    (diminish 'ruff-format-on-save-mode nil)
+    (diminish 'drag-stuff-mode nil)
+    (diminish 'yas-minor-mode nil)))
+
+
+(use-package tree-sitter
+  :ensure t
+  :hook ((prog-mode . tree-sitter-mode)
+         (tree-sitter-after-on . tree-sitter-hl-mode)))
+
+(use-package tree-sitter-langs
+  :ensure t)
+
+
+;; (use-package pixel-scroll
+;;   :ensure nil
+;;   :bind
+;;   ([remap scroll-up-command]   . pixel-scroll-interpolate-down)
+;;   ([remap scroll-down-command] . pixel-scroll-interpolate-up)
+;;   :custom
+;;   (pixel-scroll-precision-interpolate-page t)
+;;   :init
+;;   (pixel-scroll-precision-mode 0))

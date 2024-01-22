@@ -7,13 +7,13 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
 
-
+(setenv "PATH" (concat (getenv "PATH") "/opt/homebrew/bin"))
 
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
+
 
 ;; Bootstrap 'use-package'
 (eval-after-load 'gnutls
@@ -115,14 +115,16 @@
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rustic-mode))
 (add-to-list 'auto-mode-alist '("\\.rest\\'" . restclient-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.oरग\\'" . org-mode))
 (add-to-list 'auto-mode-alist '("build.gradle" . groovy-mode))
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
@@ -130,11 +132,17 @@
 (load-directory "~/.emacs.d/packages")
 
 
-(defun configure-font (frame)
+(defun configure-font ()
   "Configure font given initial non-daemon FRAME.
 Intended for `after-make-frame-functions'."
+  (interactive)
   (progn
-      (set-frame-font "-*-Monaspace Xenon Var-regular-normal-normal-*-14-*-*-*-p-0-iso10646-1" nil t))
-  (remove-hook 'after-make-frame-functions #'my-configure-font))
+      (set-frame-font "-*-PT Mono-regular-normal-normal-*-14-*-*-*-p-0-iso10646-1" nil t)))
 
+
+(configure-font)
 (add-hook 'after-make-frame-functions #'configure-font)
+
+(load-file "~/.emacs.d/navapali-maps.el")
+
+(ido-mode nil)  ;;  disable ido mode because it is annoying

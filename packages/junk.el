@@ -54,10 +54,6 @@
 ;; ;;   :ensure f
 ;; ;;   :config
 ;; ;;   (unless (server-running-p) (server-start)))
-;; (setq org-confirm-babel-evaluate nil)
-;; ;; (load-file "~/.emacs.d/ob-rust.el")
-;; ;; (org-babel-do-load-languages
-;; ;;  'org-babel-load-languages '((C . t) (shell . t) (python .t) (rust . t)))
 
 ;; (use-package svg-tag-mode
 ;;   :ensure t
@@ -279,11 +275,11 @@
 ;;          (prog-mode . spaceline-helm-mode))
 ;;   :ensure t)
 
-;; (use-package all-the-icons-dired
-;;   :hook (dired-mode . all-the-icons-dired-mode)
-;;   :ensure t)
-;; (use-package wc-mode
-;;   :ensure t)
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode)
+  :ensure t)
+(use-package wc-mode
+  :ensure t)
 
 
 
@@ -309,69 +305,69 @@
 ;;   (define-key eglot-mode-map (kbd "C-<down-mouse-1>") #'xref-find-definitions)
 ;;   (define-key eglot-mode-map (kbd "C-<mouse-1>") #'xref-find-definitions))
 
-;; (use-package dired
-;;   :ensure f
-;;   :hook (dired-mode . dired-hide-details-mode)
-;;   :ensure nil
-;;   :config
-;;   (setq dired-dwim-target t)
-;;   (use-package diredfl
+(use-package dired
+  :ensure f
+  :hook (dired-mode . dired-hide-details-mode)
+  :ensure nil
+  :config
+  (setq dired-dwim-target t)
+  (use-package diredfl
 
-;;     :ensure t
-;;     :config
-;;     (diredfl-global-mode 1))
-;;   (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
-;;   (define-key dired-mode-map (kbd "\\") (lambda () (interactive) (find-alternate-file "..")))
-;;   (define-key dired-mode-map (kbd ",") 'dired-hide-details-mode)
-;;   (setq dired-recursive-copies (quote always))
-;;   (setq dired-recursive-deletes (quote top)) ; “top” means ask once
-;;   (when (string= system-type "darwin")
-;;     (setq dired-use-ls-dired t
-;;           insert-directory-program "/opt/homebrew/bin/gls"))
-;;   :custom
-;;   (dired-listing-switches "-aBhl --group-directories-first"))
-;; (use-package dired-narrow
+    :ensure t
+    :config
+    (diredfl-global-mode 1))
+  (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+  (define-key dired-mode-map (kbd "\\") (lambda () (interactive) (find-alternate-file "..")))
+  (define-key dired-mode-map (kbd ",") 'dired-hide-details-mode)
+  (setq dired-recursive-copies (quote always))
+  (setq dired-recursive-deletes (quote top)) ; “top” means ask once
+  (when (string= system-type "darwin")
+    (setq dired-use-ls-dired t
+          insert-directory-program "/opt/homebrew/bin/gls"))
+  :custom
+  (dired-listing-switches "-aBhl --group-directories-first"))
+(use-package dired-narrow
 
-;;   :ensure t
-;;   :bind (:map dired-mode-map
-;;               ("/" . dired-narrow-regexp)))
-;; (use-package dired-rainbow
-;;   ;; :hook (dired-mode . dired-rainbow-mode)
+  :ensure t
+  :bind (:map dired-mode-map
+              ("/" . dired-narrow-regexp)))
+(use-package dired-rainbow
+  ;; :hook (dired-mode . dired-rainbow-mode)
 
-;;   :ensure t
-;;   :config
-;;   (progn
-;;     (dired-rainbow-define-chmod directory "#8AA6BF" "d.*")
-;;     (dired-rainbow-define html "#C47891" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
-;;     (dired-rainbow-define xml "#536A89" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
-;;     (dired-rainbow-define document "#A478A8" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
-;;     (dired-rainbow-define markdown "#AD5B8F" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
-;;     (dired-rainbow-define database "#7688A2" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
-;;     (dired-rainbow-define media "#CC6E51" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac"))
-;;     (dired-rainbow-define image "#C5727F" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
-;;     (dired-rainbow-define log "#AB8431" ("log"))
-;;     (dired-rainbow-define shell "#E38752" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
+  :ensure t
+  :config
+  (progn
+    (dired-rainbow-define-chmod directory "#8AA6BF" "d.*")
+    (dired-rainbow-define html "#C47891" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
+    (dired-rainbow-define xml "#536A89" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
+    (dired-rainbow-define document "#A478A8" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
+    (dired-rainbow-define markdown "#AD5B8F" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
+    (dired-rainbow-define database "#7688A2" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
+    (dired-rainbow-define media "#CC6E51" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac"))
+    (dired-rainbow-define image "#C5727F" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
+    (dired-rainbow-define log "#AB8431" ("log"))
+    (dired-rainbow-define shell "#E38752" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
 
-;;     ;; Both Light and Dark Themes
-;;     (dired-rainbow-define interpreted "#98B384" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
-;;     (dired-rainbow-define compiled "#99B8A0" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
-;;     (dired-rainbow-define executable "#A17FA7" ("exe" "msi"))
-;;     (dired-rainbow-define compressed "#A39984" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
-;;     (dired-rainbow-define packaged "#E3B170" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
-;;     (dired-rainbow-define encrypted "#EDE356" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
-;;     (dired-rainbow-define fonts "#8AA6BF" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
-;;     (dired-rainbow-define partition "#C9555B" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
-;;     (dired-rainbow-define vc "#6883A5" ("git" "gitignore" "gitattributes" "gitmodules"))
-;;     (dired-rainbow-define-chmod executable-unix "#98B384" "-.*x.*")
-;;     )
+    ;; Both Light and Dark Themes
+    (dired-rainbow-define interpreted "#98B384" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
+    (dired-rainbow-define compiled "#99B8A0" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
+    (dired-rainbow-define executable "#A17FA7" ("exe" "msi"))
+    (dired-rainbow-define compressed "#A39984" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
+    (dired-rainbow-define packaged "#E3B170" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
+    (dired-rainbow-define encrypted "#EDE356" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
+    (dired-rainbow-define fonts "#8AA6BF" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
+    (dired-rainbow-define partition "#C9555B" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
+    (dired-rainbow-define vc "#6883A5" ("git" "gitignore" "gitattributes" "gitmodules"))
+    (dired-rainbow-define-chmod executable-unix "#98B384" "-.*x.*")
+    )
 
-;;   )
-;; (use-package dired-subtree :ensure t
+  )
+(use-package dired-subtree :ensure t
 
-;;   :after dired
-;;   :config
-;;   (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
-;;   (bind-key "<backtab>" #'dired-subtree-cycle dired-mode-map))
+  :after dired
+  :config
+  (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
+  (bind-key "<backtab>" #'dired-subtree-cycle dired-mode-map))
 
 ;; (use-package emmet-mode
 
@@ -500,24 +496,24 @@
 ;; ;; ;;   (python-mode . python-black-on-save-mode)
 ;; ;; ;;   :after python)
 
-;; (use-package rainbow-delimiters
+(use-package rainbow-delimiters
 
+  :ensure t
+  :hook ( prog-mode . rainbow-delimiters-mode ))
+;; (use-package restclient
+
+;;   :ensure t )
+;; (use-package angular-mode
+
+;;   ;; :config
+;;   ;; (defun lsp-go-install-save-hooks ()
+;;   ;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
+;;   ;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
+;;   ;; :hook
+;;   ;; (( angular-mode . lsp-deferred )
+;;   ;;  ( angular-mode . lsp-go-install-save-hooks ))
 ;;   :ensure t
-;;   :hook ( prog-mode . rainbow-delimiters-mode ))
-;; ;; (use-package restclient
-
-;; ;;   :ensure t )
-;; ;; (use-package angular-mode
-
-;; ;;   ;; :config
-;; ;;   ;; (defun lsp-go-install-save-hooks ()
-;; ;;   ;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
-;; ;;   ;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
-;; ;;   ;; :hook
-;; ;;   ;; (( angular-mode . lsp-deferred )
-;; ;;   ;;  ( angular-mode . lsp-go-install-save-hooks ))
-;; ;;   :ensure t
-;; ;;   )
+;;   )
 
 ;; (use-package treemacs-icons-dired
 

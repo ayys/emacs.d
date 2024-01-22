@@ -10,10 +10,20 @@
    ("C-x C-g" . magit-status-quick)
    ("C-x g" . magit-status)))
 
+(defun my-fetch-all-forge-topics ()
+  "Fetch all topics from the forge remote."
+  (when (and (derived-mode-p 'forge-topic-mode)
+             ;; Add any additional conditions to verify topic creation
+             )
+    (forge-pull)))
+
+
 (use-package forge
   :ensure t
   :after magit
   :hook ((forge-post-mode . auto-fill-mode)
+         (forge-post-mode . turn-on-flyspell)
+         (forge-post-mode . my-fetch-all-forge-topics)
          (forge-post-mode . display-fill-column-indicator-mode)))
 
 (use-package magit-todos

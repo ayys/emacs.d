@@ -1,25 +1,31 @@
+(defun open-project-readme ()
+  "Open the README.md file in the project root, ignoring case."
+  (let ((root (projectile-project-root)))
+    (when root
+      (let ((readme (car (directory-files root t "\\`README\\.md\\'" t))))
+        (when readme
+          (find-file readme))))))
+
+
+
 (use-package projectile
   :ensure t
-
-  :after ivy
+  :after vertico
   :bind-keymap
   ("C-c p" . projectile-command-map)
-  :bind (("C-c C-f" . projectile-find-file))
+  :bind (("C-c C-f" . projectile-find-file)
+         ("C-c -" . projectile-run-async-shell-command-in-root))
   :config
   (progn
     (projectile-mode +1)
     (setq projectile-sort-order 'recently-active)
     (setq projectile-indexing-method 'hybrid)
-    (setq projectile-switch-project-action #'projectile-dired)
-    (setq projectile-completion-system 'ivy)
+
+    (setq projectile-switch-project-action #'magit-status)
+    (setq projectile-completion-system 'default)
     (setq projectile-project-search-path '("~/git" "~/go/src/"))))
 
 
-
-(use-package treemacs-projectile
-
-  :after (treemacs projectile)
-  :ensure t )
 
 (use-package treemacs
   :ensure t
@@ -66,13 +72,3 @@
   :after (treemacs persp-mode)
   :ensure t
   :config (treemacs-set-scope-type 'Perspectives))
-
-
-
-(add-to-list 'load-path "~/.emacs.d/git/linear.el")
-(use-package transient
-  :ensure t)
-
-
-(use-package linear
-  :load-path "~/.emacs.d/git/linear.el")

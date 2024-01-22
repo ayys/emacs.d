@@ -1,22 +1,28 @@
 (use-package org
   :ensure t
   :bind
-  (("C-c C-x t". open-todo-list)
-   ("C-c a" . org-todo-list)
+  (("C-c a" . org-agenda)
    ("C-c C-h" . org-html-export-to-html)
    ("C-c l" . org-store-link))
   :hook ((org-mode . auto-fill-mode)
          (org-mode . display-fill-column-indicator-mode)
          )
   :config
-  (defun open-todo-list () (interactive) (find-file-other-window (cdr (car (cdr (car bookmark-alist))))))
   (add-to-list 'org-latex-packages-alist
                '("AUTO" "babel" t ("pdflatex")))
   (define-key org-mode-map (kbd "`") #'org-insert-tilde)
   (define-key org-mode-map (kbd "~") #'org-insert-backtick)
   (define-key org-mode-map (kbd "C-c C-r") 'verb-command-map)
+  (setq org-agenda-files '())
+  (setq org-log-done t)
   (add-to-list 'org-latex-packages-alist
                '("AUTO" "polyglossia" t ("xelatex" "lualatex"))))
+
+
+(setq org-confirm-babel-evaluate nil)
+(load-file "~/.emacs.d/ob-rust/ob-rust.el")
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((C . t) (shell . t) (python .t) (rust . t)))
 
 (use-package org-bullets
   :ensure t
@@ -45,3 +51,45 @@
   :init (setq markdown-command "multimarkdown")
   :config
   (setq markdown-fontify-code-blocks-natively t))
+
+
+(defun ayys/org-projectile-todo-files ()
+  "Fetch a list of org TODO files for projects that actually exist."
+  (require 'org-projectile)
+  (seq-filter #'file-exists-p (occ-get-todo-files org-project-capture-strategy)))
+
+(defun ayys/org-projectile-goto-project-file ()
+  "Open the TODO.org file for the current project."
+  (interactive)
+  (org-projectile-goto-location-for-project (projectile-project-name)))
+
+
+(defun ayys/org-projectile:update-agenda-files ()
+  "Add all `org-projectile' files to `org-agenda-files'."
+  (interactive)
+  (dolist (file (ayys/org-projectile-todo-files))
+    (add-to-list 'org-agenda-files file)))
+
+(use-package org-project-capture :ensure t)
+
+(use-package org-projectile
+  :ensure t
+  :after (org org-project-capture)
+  :bind (("C-c n p" . org-projectile:project-todo-completing-read)
+         ("C-c c" . org-capture))
+
+  :hook ((org-capture-after-finalize . ayys/org-projectile:update-agenda-files)
+         (org-agenda-mode . ayys/org-projectile:update-agenda-files))
+  :init
+  (progn
+    (org-project-capture-per-project)
+    (setq org-project-capture-projects-file ".todo/todo.org")
+    (ayys/org-projectile:update-agenda-files)
+    (setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("j" "Journal" entry (file+datetree "~/org/journal.org")
+         "* %?\nEntered on %U\n  %i\n  %a")))
+    (add-to-list 'org-capture-templates
+                 (org-projectile-project-todo-entry)))
+  )
